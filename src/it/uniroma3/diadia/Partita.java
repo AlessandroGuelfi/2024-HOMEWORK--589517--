@@ -13,6 +13,9 @@ import it.uniroma3.diadia.giocatore.*;
 
 public class Partita {
 
+	
+	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "posa", "prendi", "guarda"};
+	
 	private Stanza stanzaCorrente;
 	private Labirinto labirinto;
 	private Giocatore giocatore;
@@ -75,6 +78,11 @@ public class Partita {
 
 	public void setGiocatore(Giocatore giocatore) {
 		this.giocatore = giocatore;
+	}
+
+	public static String[] getElencocomandi() {
+		return elencoComandi;
 	}	
+	
 }
 
