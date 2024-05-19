@@ -11,7 +11,7 @@ public class ComandoAiuto implements Comando {
 	}
 	@Override
 	public void esegui(Partita partita) {
-			for(String elemento : partita.getElencocomandi()) 
+			for(String elemento : Partita.getElencocomandi()) 
 				this.console.mostraMessaggio(elemento);
 			this.console.mostraMessaggio("");
 	}

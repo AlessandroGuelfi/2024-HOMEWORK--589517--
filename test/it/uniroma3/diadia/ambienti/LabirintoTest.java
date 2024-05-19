@@ -8,15 +8,17 @@ public class LabirintoTest {
 
 	@Test
 	public void testgetStanzaVincente() {
-		Labirinto lab = new Labirinto();
-		Stanza vincente = new Stanza("StanzaVincente");
-		lab.setStanzaVincente(vincente);
-		assertEquals(vincente,lab.getStanzaVincente());
+		Labirinto lab = new LabirintoBuilder()
+				.addStanzaVincente("fine")
+				.getLabirinto();
+		assertEquals(new Stanza("fine"),lab.getStanzaVincente());
 	}
 	
 	@Test
 	public void testgetStanzaVincenteNon() {
-		Labirinto lab = new Labirinto();
+		Labirinto lab = new LabirintoBuilder()
+				.addStanzaVincente("fine")
+				.getLabirinto();
 		Stanza nonVincente = new Stanza("StanzaNonVincente");
 		assertNotEquals(nonVincente,lab.getStanzaVincente());
 	}

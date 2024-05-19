@@ -14,19 +14,31 @@ import it.uniroma3.diadia.giocatore.*;
 public class Partita {
 
 	
-	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "posa", "prendi", "guarda"};
+	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "posa", "prendi", "guarda", "guarda borsa"};
 	
 	private Stanza stanzaCorrente;
 	private Labirinto labirinto;
 	private Giocatore giocatore;
 	private boolean finita;
 
+	
 	public Partita(){
-		this.labirinto = new Labirinto();
+		this(new Labirinto());
+	}
+	
+	
+	
+	public Partita(Labirinto lab){
+		this.labirinto = lab;
 		this.finita = false;
 		this.giocatore = new Giocatore();
 		this.stanzaCorrente = this.labirinto.getStanzaIniziale();
 	}
+
+	public void setLabirinto(Labirinto lab) {
+		this.labirinto = lab;
+	}
+	
 
 	/**
 	 * Restituisce vero se e solo se la partita e' stata vinta
@@ -46,10 +58,6 @@ public class Partita {
 
 	public void setStanzaCorrente(Stanza stanzaCorrente) {
 		this.stanzaCorrente = stanzaCorrente;
-	}
-
-	public void setLabirinto(Labirinto labirinto) {
-		this.labirinto = labirinto;
 	}
 
 	/**

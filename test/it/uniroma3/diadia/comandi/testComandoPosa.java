@@ -7,16 +7,21 @@ import org.junit.Test;
 
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.ambienti.*;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class testComandoPosa {
 	private Partita p;
 	private Comando c;
 	private IOConsole console;
+	private Labirinto lab;
 	@Before
 	public void setUp() throws Exception {
 		console = new IOConsole();
-		p = new Partita();
+		lab = new LabirintoBuilder()
+				.addStanzaIniziale("inizio")
+				.getLabirinto();
+		p = new Partita(lab);
 		c = new ComandoPosa(console);
 		p.getGiocatore().getBorsa().addAttrezzo(new Attrezzo("spada",10));
 		

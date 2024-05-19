@@ -1,9 +1,13 @@
 package it.uniroma3.diadia;
 
 
+import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
-import java.util.Scanner;
+
+
+import java.util.*;
 
 /**
  * Classe principale di diadia, un semplice gioco di ruolo ambientato al dia.
@@ -37,6 +41,11 @@ public class DiaDia {
 		this.console = io;
 	}
 
+	public DiaDia(Labirinto lab, IO io) {
+		this.console = io;
+		this.partita = new Partita(lab);
+	}
+
 	public void gioca() {
 		String istruzione; 
 
@@ -50,7 +59,7 @@ public class DiaDia {
 	private boolean processaIstruzione(String istruzione) {
 		Comando comandoDaEseguire;
 		FabbricaDiComandiFisarmonica factory = new FabbricaDiComandiFisarmonica();
-				comandoDaEseguire = factory.costruisciComando(istruzione, this.console);
+		comandoDaEseguire = factory.costruisciComando(istruzione, this.console);
 		comandoDaEseguire.esegui(this.partita); 
 		if (this.partita.vinta())
 			this.console.mostraMessaggio("Hai vinto!");
@@ -59,8 +68,43 @@ public class DiaDia {
 
 
 	public static void main(String[] argc) {
+		/* N.B. unica istanza di IOConsole
+		di cui sia ammessa la creazione */
+		Random rand = new Random();
+		Map<Integer, Labirinto> mappaLabirinti = new HashMap<>(); 
 		IO io = new IOConsole();
-		DiaDia gioco = new DiaDia(io);
+		Labirinto labirinto = new LabirintoBuilder()
+				.addStanzaIniziale("LabCampusOne")
+				.addStanza("aulaN11")
+				.addAttrezzo("quaderno", 5)
+				.addAdiacenza("LabCampusOne", "aulaN11", "sud")
+				.addAdiacenza("aulaN11", "LabCampusOne", "nord")
+				.addStanzaVincente("Biblioteca")
+				.addAdiacenza("LabCampusOne","Biblioteca","ovest")
+				.getLabirinto();
+		mappaLabirinti.put(0, labirinto);
+		Labirinto monolocale = new LabirintoBuilder()
+				.addStanzaIniziale("salotto") 
+				.addStanzaVincente("salotto") 
+				.getLabirinto(); 
+		mappaLabirinti.put(1, monolocale);
+		Labirinto bilocale = new LabirintoBuilder()
+				.addStanzaIniziale("salotto")
+				.addStanzaVincente("camera")
+				.addAttrezzo("letto",10)
+				.addAdiacenza("salotto", "camera", "nord") 
+				.getLabirinto(); 
+		mappaLabirinti.put(2, bilocale);
+		Labirinto trilocale = new LabirintoBuilder()
+				.addStanzaIniziale("salotto")
+				.addStanza("cucina")
+				.addAttrezzo("pentola",1) 
+				.addStanzaVincente("camera")
+				.addAdiacenza("salotto", "cucina", "nord")
+				.addAdiacenza("cucina", "camera", "est")
+				.getLabirinto();
+		mappaLabirinti.put(3, trilocale);
+		DiaDia gioco = new DiaDia(mappaLabirinti.get(rand.nextInt(4)), io);
 		gioco.gioca();
 	}
 }

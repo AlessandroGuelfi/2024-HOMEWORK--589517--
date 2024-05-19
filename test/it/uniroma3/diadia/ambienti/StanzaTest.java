@@ -49,7 +49,7 @@ public class StanzaTest {
 	@Test
 	public void testAddAttrezzoNonEsistente() {
 		Stanza atrio = new Stanza("atrio");
-		assertTrue(atrio.addAttrezzo(null));
+		assertFalse(atrio.addAttrezzo(null));
 	}
 
 	@Test 
