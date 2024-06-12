@@ -2,6 +2,8 @@ package it.uniroma3.diadia.comandi;
 
 import static org.junit.Assert.*;
 
+import java.util.Scanner;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,33 +17,34 @@ public class testComandoPosa {
 	private Comando c;
 	private IOConsole console;
 	private Labirinto lab;
+	private FabbricaDiComandi riflessiva;
 	@Before
 	public void setUp() throws Exception {
-		console = new IOConsole();
-		lab = new LabirintoBuilder()
+		console = new IOConsole(new Scanner(System.in));
+		lab = Labirinto.newBuilder("labirinto.txt")
 				.addStanzaIniziale("inizio")
 				.getLabirinto();
 		p = new Partita(lab);
-		c = new ComandoPosa(console);
+		riflessiva = new FabbricaDiComandiRiflessiva(console);
 		p.getGiocatore().getBorsa().addAttrezzo(new Attrezzo("spada",10));
 		
 	}
 
 	@Test
 	public void testComandoPosaCorrettamenteNellaStanza() {
-		c.setParametro("spada");
+		c = riflessiva.costruisciComando("posa spada");
 		c.esegui(p);
 		assertTrue(p.getStanzaCorrente().hasAttrezzo("spada"));
 	}
 	@Test
 	public void testComandoPosaCorrettamenteNonNellaBorsa() {
-		c.setParametro("spada");
+		c = riflessiva.costruisciComando("posa spada");
 		c.esegui(p);
 		assertFalse(p.getGiocatore().getBorsa().hasAttrezzo("spada"));
 	}
 	@Test
 	public void testComandoPosaAttrezzoNonNellaBorsa() {
-		c.setParametro("lama");
+		c = riflessiva.costruisciComando("posa lama");
 		c.esegui(p);
 		assertFalse(p.getStanzaCorrente().hasAttrezzo("lama"));
 	}

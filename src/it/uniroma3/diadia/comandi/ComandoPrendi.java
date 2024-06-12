@@ -1,18 +1,15 @@
 package it.uniroma3.diadia.comandi;
 
-import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.giocatore.Giocatore;
 
-public class ComandoPrendi implements Comando {
-	private String nomeAttrezzo;
-	private IO console;
+public class ComandoPrendi extends AbstractComando {
 	
-	public ComandoPrendi(IO console) {
-		this.console = console;
-	}
+//	public ComandoPrendi(IO console) {
+//		this.console = console;
+//	}
 
 	/**
 	 * Prende un attrezzo dalla stanza corrente, se non trova nessun attrezzo 
@@ -23,36 +20,23 @@ public class ComandoPrendi implements Comando {
 	public void esegui(Partita partita) {
 		Stanza stanzaCorrente = partita.getStanzaCorrente();
 		Giocatore player = partita.getGiocatore();
-		if(stanzaCorrente.hasAttrezzo(nomeAttrezzo)) {
-			Attrezzo cercato = stanzaCorrente.getAttrezzo(nomeAttrezzo);
+		if(stanzaCorrente.hasAttrezzo(this.getParametro())) {
+			Attrezzo cercato = stanzaCorrente.getAttrezzo(this.getParametro());
 			if(player.getBorsa().addAttrezzo(cercato)) {
 				stanzaCorrente.removeAttrezzo(cercato);
-				this.console.mostraMessaggio("Attrezzo preso con successo\n");
+				this.getConsole().mostraMessaggio("Attrezzo preso con successo\n");
 			}
 			else
-				this.console.mostraMessaggio("La borsa e' piena, posa degli oggetti per poterne prendere altri\n");
+				this.getConsole().mostraMessaggio("La borsa e' piena, posa degli oggetti per poterne prendere altri\n");
 		}
 		else 
-			this.console.mostraMessaggio("Questo attrezzo non esiste\n");
+			this.getConsole().mostraMessaggio("Questo attrezzo non esiste\n");
 	}
 	
 	
-	@Override
-	public void setParametro(String parametro) {
-		this.nomeAttrezzo = parametro;
-
-	}
-
-
 	@Override
 	public String getNome() {
 		return "prendi";
-	}
-
-
-	@Override
-	public String getParametro() {
-		return this.nomeAttrezzo;
 	}
 
 }

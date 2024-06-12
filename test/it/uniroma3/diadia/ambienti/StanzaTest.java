@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-
+import it.uniroma3.diadia.Direzione;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class StanzaTest {
@@ -15,7 +15,7 @@ public class StanzaTest {
 		Stanza stanza = new Stanza("Stanza");
 		Stanza stanzaAdiacente = new Stanza ("StanzaAdiacente");
 		stanza.impostaStanzaAdiacente("nord",stanzaAdiacente);
-		assertEquals("StanzaAdiacente",stanza.getStanzaAdiacente("nord").getNome());
+		assertEquals("StanzaAdiacente",stanza.getStanzaAdiacente(Direzione.NORD).getNome());
 	}
 
 	@Test

@@ -1,6 +1,9 @@
 package it.uniroma3.diadia.ambienti;
 
+import it.uniroma3.diadia.Direzione;
 import it.uniroma3.diadia.attrezzi.*;
+import it.uniroma3.diadia.personaggi.AbstractPersonaggio;
+
 import java.util.*;
 /**
  * Classe Stanza - una stanza in un gioco di ruolo.
@@ -21,24 +24,30 @@ public class Stanza {
 	private String nome;
 	private Map<String,Attrezzo> attrezzi;
 	private int numeroAttrezzi;
-	private Map<String,Stanza> stanzeAdiacenti;
+	private Map<Direzione,Stanza> stanzeAdiacenti;
+	private AbstractPersonaggio personaggio;
 
 	/**
 	 * Crea una stanza. Non ci sono stanze adiacenti, non ci sono attrezzi.
 	 * @param nome il nome della stanza
 	 */
-	public Stanza(String nome) {
+	public Stanza(String nome, AbstractPersonaggio pg) {
 		this.nome = nome;
 		this.numeroAttrezzi = 0;
 		this.stanzeAdiacenti = new HashMap<>(NUMERO_MASSIMO_DIREZIONI);
 		this.attrezzi = new HashMap<>(NUMERO_MASSIMO_ATTREZZI);
+		this.personaggio = pg;
+	}
+	
+	public Stanza(String nome) {
+		this(nome, null);
 	}
 
-	public Set<String> dammiDirezioni() {
+	public Set<Direzione> dammiDirezioni() {
 		return this.stanzeAdiacenti.keySet();
 	}
 	
-	public Map<String, Stanza> getMapStanzeAdiacenti() {
+	public Map<Direzione, Stanza> getMapStanzeAdiacenti() {
 		return this.stanzeAdiacenti;
 	}
 	
@@ -49,14 +58,14 @@ public class Stanza {
 	 * @param stanza stanza adiacente nella direzione indicata dal primo parametro.
 	 */
 	public void impostaStanzaAdiacente(String direzione, Stanza stanza) {
-		this.stanzeAdiacenti.put(direzione, stanza);
+		this.stanzeAdiacenti.put(Direzione.valueOf(direzione.toUpperCase()), stanza);
 	}
 
 	/**
 	 * Restituisce la stanza adiacente nella direzione specificata
 	 * @param direzione
 	 */
-	public Stanza getStanzaAdiacente(String direzione) {
+	public Stanza getStanzaAdiacente(Direzione direzione) {
 		return this.stanzeAdiacenti.get(direzione);
 	}
 
@@ -114,8 +123,8 @@ public class Stanza {
 		StringBuilder risultato = new StringBuilder();
 		risultato.append(this.nome);
 		risultato.append("\nUscite: ");
-		Set<String> direzioni = this.dammiDirezioni();
-				risultato.append(" " + direzioni);
+		Set<Direzione> direzioni = this.dammiDirezioni();
+				risultato.append(" " + direzioni.toString());
 		risultato.append("\nAttrezzi nella stanza: ");
 		Set<String> nomeAttrezzi = this.attrezzi.keySet();
 		for (String s : nomeAttrezzi) {
@@ -168,8 +177,15 @@ public class Stanza {
 		return this.getNome().equals(that.getNome());
 	}
 	
-	public Set<String> getDirezioni() {
+	public Set<Direzione> getDirezioni() {
 		return this.stanzeAdiacenti.keySet();
 	}
+
+	public AbstractPersonaggio getPersonaggio() {
+		return personaggio;
+	}
 	
+	public void setPersonaggio(AbstractPersonaggio personaggio) {
+		this.personaggio = personaggio;
+	}
 }

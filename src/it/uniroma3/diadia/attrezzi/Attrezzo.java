@@ -43,14 +43,17 @@ public class Attrezzo implements Comparable<Attrezzo> {
 	}
 	@Override
 	public boolean equals(Object o) {
+		if(o == null) return false;
 		Attrezzo that = (Attrezzo) o;
-		return this.getNome().equals(that.getNome()) && this.getPeso()==that.getPeso();
+		if(this.getClass() == that.getClass())
+			return this.getNome().equals(that.getNome()) && this.getPeso()==that.getPeso();
+		return false;
 	}
 	@Override
 	public int hashCode() {
 		return this.getNome().hashCode()+this.getPeso();
 	}
-	
+
 	/**
 	 * Restituisce una rappresentazione stringa di questo attrezzo
 	 * @return la rappresentazione stringa
@@ -65,5 +68,8 @@ public class Attrezzo implements Comparable<Attrezzo> {
 			cmp = this.getNome().compareTo(that.getNome());
 		return cmp;
 	}
-	
+	public void setPeso(int peso) {
+		this.peso = peso;
+	}
+
 }

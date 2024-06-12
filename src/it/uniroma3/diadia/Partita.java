@@ -1,5 +1,7 @@
 package it.uniroma3.diadia;
 
+import java.io.FileNotFoundException;
+
 import it.uniroma3.diadia.ambienti.*;
 import it.uniroma3.diadia.giocatore.*;
 
@@ -14,7 +16,7 @@ import it.uniroma3.diadia.giocatore.*;
 public class Partita {
 
 	
-	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "posa", "prendi", "guarda", "guarda borsa"};
+	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "posa", "prendi", "guarda", "guarda borsa","saluta","regala","interagisci"};
 	
 	private Stanza stanzaCorrente;
 	private Labirinto labirinto;
@@ -25,8 +27,6 @@ public class Partita {
 	public Partita(){
 		this(new Labirinto());
 	}
-	
-	
 	
 	public Partita(Labirinto lab){
 		this.labirinto = lab;

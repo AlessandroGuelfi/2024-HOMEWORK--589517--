@@ -1,5 +1,7 @@
 package it.uniroma3.diadia.giocatore;
 
+import it.uniroma3.diadia.ConfiguraStatoIniziale;
+
 /**
  * La classe giocatore si occupa di gestire i cfu del giocatore, i cfu servono per muoversi
  * tra le stanze del labirinto, inoltre il giocatore ha una borsa dove può mettere i suoi oggetti
@@ -8,7 +10,7 @@ package it.uniroma3.diadia.giocatore;
  */
 
 public class Giocatore {
-	static final private int CFU_INIZIALI = 20;
+	static final private int CFU_INIZIALI = new ConfiguraStatoIniziale().getCfuIniziali();
 
 	private int cfu;
 	private Borsa borsa;
